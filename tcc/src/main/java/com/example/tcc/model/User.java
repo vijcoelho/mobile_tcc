@@ -1,13 +1,19 @@
 package com.example.tcc.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user")
 public class User {
 
+    @Id @GeneratedValue
+    @Column(name = "iduser")
     private int id;
+    @Column(name = "userName")
     private String userName;
+    @Column(name = "userEmail")
     private String userEmail;
+    @Column(name = "userPassword")
     private String userPassword;
 
     public int getId() {
