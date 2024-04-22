@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">mobile_tcc</string>
+    <string name="edtEmail">Email</string>
+    <string name="edtPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="forgotPass">Forgot Password</string>
 </resources>
