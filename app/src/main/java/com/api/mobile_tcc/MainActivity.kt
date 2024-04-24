@@ -3,19 +3,23 @@ package com.api.mobile_tcc
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.Toast
-import at.favre.lib.crypto.bcrypt.BCrypt
 import com.api.mobile_tcc.databinding.ActivityMainBinding
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
+import com.api.mobile_tcc.model.MyUser
+import com.api.mobile_tcc.retrofit.MyUserRetrofit
+import com.api.mobile_tcc.retrofit.RetrofitServer
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import okhttp3.ResponseBody
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var retrofit: RetrofitServer
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,48 +28,50 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnLogin.setOnClickListener {
-            val email = binding.editTextEmail.text.toString()
-            val password = binding.editTextPassword.text.toString()
+        retrofit = RetrofitServer()
 
-            authenticateUser(email, password)
+        binding.checkboxShowPassword.setOnClickListener {
+            togglePasswordVisibility()
         }
     }
 
-    private fun authenticateUser(email: String, password: String) {
-        val client = OkHttpClient()
+    @Override
+    private fun togglePasswordVisibility() {
+        if (binding.checkboxShowPassword.isChecked) {
+            binding.editTextPassword.transformationMethod = null
+        } else {
+            binding.editTextPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+        }
+    }
 
-        val requestBody = FormBody.Builder()
-            .add("email", email)
-            .add("password", password)
-            .build()
+    fun loginOnClick(view: View) {
+        if (view == binding.btnLogin) {
+            val email: String = binding.editTextEmail.text.toString()
+            val password: String = binding.editTextPassword.text.toString()
 
-        val request = Request.Builder()
-            .url("http://192.168.15.15:8080/login")
-            .post(requestBody)
-            .build()
+            val myUser = MyUser()
+            myUser.setEmail(email)
+            myUser.setPassword(password)
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                runOnUiThread {
-                    Toast.makeText(applicationContext, "Erro on connect in the server", Toast.LENGTH_SHORT).show()
+            authenticatorUser(myUser)
+        }
+    }
+
+    private fun authenticatorUser(myUser: MyUser) {
+        val myUserRetrofit: MyUserRetrofit = retrofit.getAuthUser()
+        val call: Call<ResponseBody> = myUserRetrofit.authenticatorUser(myUser)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    startActivity(Intent(this@MainActivity, Home::class.java))
+                    finish()
                 }
             }
 
-            override fun onResponse(call: Call, response: Response) {
-                val responseBody: String? = response.body?.use { it.string() }
-                if (response.isSuccessful && responseBody != null) {
-                    runOnUiThread {
-                        Toast.makeText(applicationContext, "Welcome", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@MainActivity, Home::class.java))
-                        finish()
-                    }
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error during authentication", Toast.LENGTH_SHORT)
+                    .show()
+                Logger.getLogger(MainActivity::class.java.name).log(Level.SEVERE, "ERROR", t)
             }
         })
     }
