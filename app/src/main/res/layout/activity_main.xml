@@ -10,15 +10,15 @@
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="302dp"
-        android:layout_height="46dp"
+        android:layout_height="0dp"
         android:layout_marginStart="74dp"
-        android:layout_marginTop="199dp"
+        android:layout_marginTop="198dp"
         android:layout_marginEnd="74dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="285dp"
         android:hint="@string/edtEmail"
-        android:textColorHint="@color/grey"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
+        android:textColorHint="@color/grey"
+        app:layout_constraintBottom_toTopOf="@+id/signUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,23 +32,24 @@
         android:layout_marginEnd="74dp"
         android:layout_marginBottom="414dp"
         android:hint="@string/edtPassword"
-        android:textColorHint="@color/grey"
         android:inputType="textPassword"
+        android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="124dp"
         android:layout_height="61dp"
         android:backgroundTint="@color/blue"
+        android:onClick="loginOnClick"
         android:text="@string/btnLogin"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:onClick="loginOnClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -57,19 +58,20 @@
         app:layout_constraintVertical_bias="0.215" />
 
     <TextView
+        android:id="@+id/forgotPassword"
         android:layout_width="229dp"
-        android:layout_height="53dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="62dp"
         android:autoLink="web"
         android:text="@string/forgotPass"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp" />
 
     <CheckBox
         android:id="@+id/checkboxShowPassword"
@@ -81,5 +83,19 @@
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.397" />
+
+    <TextView
+        android:id="@+id/signUp"
+        android:autoLink="web"
+        android:layout_width="147dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="166dp"
+        android:text="@string/signUp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

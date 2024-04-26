@@ -2,6 +2,7 @@ package com.example.tcc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContentController {
@@ -24,5 +25,10 @@ public class ContentController {
     @GetMapping("/home")
     public String handleHome() {
         return "home";
+    }
+
+    @GetMapping("/register")
+    public String handleRegister() {
+        return "register_home";
     }
 }

@@ -1,6 +1,7 @@
 package com.api.mobile_tcc
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
@@ -32,6 +33,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.checkboxShowPassword.setOnClickListener {
             togglePasswordVisibility()
+        }
+
+        binding.signUp.setOnClickListener {
+            registerNewUser()
         }
     }
 
@@ -74,5 +79,12 @@ class MainActivity : AppCompatActivity() {
                 Logger.getLogger(MainActivity::class.java.name).log(Level.SEVERE, "ERROR", t)
             }
         })
+    }
+
+    fun registerNewUser() {
+        val url = "http://192.168.15.15:8080/register"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }
