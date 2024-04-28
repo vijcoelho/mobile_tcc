@@ -2,7 +2,6 @@ package com.example.tcc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContentController {
@@ -30,5 +29,10 @@ public class ContentController {
     @GetMapping("/register")
     public String handleRegister() {
         return "register_home";
+    }
+
+    @GetMapping("/forgot_password")
+    public String handleForgotPassword() {
+        return "forgot_password";
     }
 }
