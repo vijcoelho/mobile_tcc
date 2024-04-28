@@ -35,4 +35,9 @@ public class ContentController {
     public String handleForgotPassword() {
         return "forgot_password";
     }
+
+    @GetMapping("/success_password")
+    public String handleSuccessPassword() {
+        return "success_password";
+    }
 }

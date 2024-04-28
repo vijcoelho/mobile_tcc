@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         binding.signUp.setOnClickListener {
             registerNewUser()
         }
+
+        binding.forgotPassword.setOnClickListener {
+            forgotPassword()
+        }
     }
 
     @Override
@@ -79,6 +83,13 @@ class MainActivity : AppCompatActivity() {
                 Logger.getLogger(MainActivity::class.java.name).log(Level.SEVERE, "ERROR", t)
             }
         })
+    }
+
+    fun forgotPassword() {
+        val url = "http://192.168.15.15:8080/forgot_password"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     fun registerNewUser() {
